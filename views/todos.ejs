@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap" rel="stylesheet">      
+</head>
+<body>
+    <section>
+        <h1>Healthy Habit Tracker</h1>
+        <ul>
+            <% todos.forEach(el => { %>
+                <li class='todoItem' data-id='<%=el._id%>'>
+                    <div class="checkbox-wrapper-19">
+                        <input type="checkbox" id="cb-<%=el._id%>" <%= el.completed ? 'checked' : '' %>/>
+                        <label for="cb-<%=el._id%>" class="check-box"></label>
+                    </div>
+                    <span class='<%= el.completed ? 'completed' : 'not'%>'><%= el.todo %></span>
+                    <span class='del'>Delete</span>
+                </li>
+            <% }) %>
+        </ul>
+    
+        <h2>Habits Completed: <%= left %></h2>
+    
+        <form action="/todos/createTodo" method='POST'>
+            <input type="text" placeholder="Enter Habit" name='todoItem'>
+            <input type="submit">
+        </form>
+    
+        <h2>Log Completed Habits</h2>
+        <button id="logCompletionButton">Log Today's Completed Habits</button>
+    
+        <h2>Daily Habit Completions</h2>
+        <ul>
+            <% habitCompletions.forEach(completion => { %>
+                <li>
+                    <span><%= completion.date.toDateString() %> - <%= completion.completedCount %> habits completed</span>
+                    <button class="deleteCompletionButton" data-completion-id="<%= completion._id %>">Delete</button>
+                </li>
+            <% }) %>
+        </ul>
+          
+    </section>
+    
+
+    <script src="js/main.js"></script>
+</body>
+</html>
