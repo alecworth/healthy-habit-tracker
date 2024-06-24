@@ -11,18 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap" rel="stylesheet">      
 </head>
 <body>
-    <section>
+    <section class="main">
         <h1>Healthy Habit Tracker</h1>
         <ul>
             <% todos.forEach(el => { %>
-                <li class='todoItem' data-id='<%=el._id%>'>
-                    <div class="checkbox-wrapper-19">
-                        <input type="checkbox" id="cb-<%=el._id%>" <%= el.completed ? 'checked' : '' %>/>
-                        <label for="cb-<%=el._id%>" class="check-box"></label>
-                    </div>
-                    <span class='<%= el.completed ? 'completed' : 'not'%>'><%= el.todo %></span>
-                    <span class='del'>Delete</span>
-                </li>
+                <section>
+                      <li class='todoItem' data-id='<%=el._id%>'>
+                        <input class=<%= el.completed ? 'completed' : 'not'%> type="checkbox">
+                        <span class='<%= el.completed ? 'completed' : 'not'%>'><%= el.todo %></span>
+                        <span class='del'>Delete</span>
+                </section>
+                    </li>
             <% }) %>
         </ul>
     
@@ -45,10 +44,9 @@
                 </li>
             <% }) %>
         </ul>
+        <a href="/logout">Logout</a>
           
     </section>
-    
-
     <script src="js/main.js"></script>
 </body>
 </html>

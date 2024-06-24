@@ -1,12 +1,13 @@
 const Todo = require('../models/Todo')
 const HabitCompletion = require('../models/HabitCompletion');
+const User = require('../models/User')
 
 module.exports = {
     getTodos: async (req,res)=>{
         try{
-            const todoItems = await Todo.find()
-            const itemsLeft = await Todo.countDocuments({completed: true})
-            const habitCompletions = await HabitCompletion.find().sort({ date: -1 })
+            const todoItems = await Todo.find({user: req.user.id})
+            const itemsLeft = await Todo.countDocuments({completed: true, user: req.user.id})
+            const habitCompletions = await HabitCompletion.find({user: req.user.id}).sort({ date: -1 })
             res.render('todos.ejs', {todos: todoItems, left: itemsLeft, habitCompletions: habitCompletions})
         }catch(err){
             console.log(err)
@@ -14,7 +15,7 @@ module.exports = {
     },
     createTodo: async (req, res)=>{
         try{
-            await Todo.create({todo: req.body.todoItem, completed: false})
+            await Todo.create({todo: req.body.todoItem, completed: false, user: req.user.id})
             console.log('Todo has been added!')
             res.redirect('/todos')
         }catch(err){
@@ -56,16 +57,16 @@ module.exports = {
     logCompletion: async (req, res) => {
         try {
             const { completedCount } = req.body;
-            await HabitCompletion.create({ completedCount });
+            await HabitCompletion.create({ user: req.user.id, completedCount });
             console.log('Habit completion logged!');
             
             // Fetch updated todo list and completion data
-            const todoItems = await Todo.find();
-            const itemsLeft = await Todo.countDocuments({ completed: true });
-            const habitCompletions = await HabitCompletion.find().sort({ date: -1 });
+            const todoItems = await Todo.find({user: req.user.id});
+            const itemsLeft = await Todo.countDocuments({ completed: true, user: req.user.id });
+            const habitCompletions = await HabitCompletion.find({user: req.user.id}).sort({ date: -1 });
             
             // Send back the updated completion count and data
-            res.json({ completedCount, todos: todoItems, left: itemsLeft, habitCompletions: habitCompletions });
+            res.json({ completedCount, todos: todoItems, left: itemsLeft, habitCompletions: habitCompletions, user: req.user.id });
         } catch (err) {
             console.log(err);
             res.status(500).send('Error logging completion');

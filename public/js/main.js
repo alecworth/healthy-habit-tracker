@@ -1,6 +1,8 @@
 const deleteBtn = document.querySelectorAll('.del')
 const todoItem = document.querySelectorAll('span.not')
+const todoItem2 = document.querySelectorAll('input.not')
 const todoComplete = document.querySelectorAll('span.completed')
+const todoComplete2 = document.querySelectorAll('input.completed')
 const logCompletionButton = document.getElementById('logCompletionButton');
 
 Array.from(deleteBtn).forEach((el)=>{
@@ -15,7 +17,17 @@ Array.from(todoComplete).forEach((el)=>{
     el.addEventListener('click', markIncomplete)
 })
 
+Array.from(todoItem2).forEach((el)=>{
+    el.addEventListener('change', markComplete)
+})
+
+Array.from(todoComplete2).forEach((el)=>{
+    el.addEventListener('change', markIncomplete)
+})
+
 logCompletionButton.addEventListener('click', logCompletion);
+
+
 
 async function deleteTodo(){
     const todoId = this.parentNode.dataset.id
@@ -106,28 +118,9 @@ document.querySelectorAll('.deleteCompletionButton').forEach(button => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.checkbox-wrapper-19 input[type=checkbox]').forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            const todoItem = checkbox.closest('.todoItem');
-            const todoId = todoItem.getAttribute('data-id');
-            const completed = checkbox.checked;
-
-            fetch(`/todos/update/${todoId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ completed })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const span = todoItem.querySelector('span:not(.del)');
-                    span.classList.toggle('completed', completed);
-                    span.classList.toggle('not', !completed);
-                }
-            });
-        });
+document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll("input.completed");
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = true;
     });
 });
