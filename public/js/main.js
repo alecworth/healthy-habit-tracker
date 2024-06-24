@@ -1,8 +1,8 @@
 const deleteBtn = document.querySelectorAll('.del')
 const todoItem = document.querySelectorAll('span.not')
-const todoItem2 = document.querySelectorAll('input.not')
+const todoItem2 = document.querySelectorAll('input[type=checkbox].not')
 const todoComplete = document.querySelectorAll('span.completed')
-const todoComplete2 = document.querySelectorAll('input.completed')
+const todoComplete2 = document.querySelectorAll('input[type=checkbox].completed')
 const logCompletionButton = document.getElementById('logCompletionButton');
 
 Array.from(deleteBtn).forEach((el)=>{
@@ -84,7 +84,7 @@ async function markIncomplete(){
 }
 
 async function logCompletion() {
-    const completedCount = document.querySelectorAll('.todoItem .completed').length;
+    const completedCount = document.querySelectorAll('.todoItem span.completed').length;
     try {
         const response = await fetch('/todos/logCompletion', {
             method: 'post',
