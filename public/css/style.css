@@ -52,6 +52,7 @@ li {
     text-decoration: none;
     margin: 2% 0;
 }
+
 span.completed {
     color: green;
     text-decoration: line-through;
